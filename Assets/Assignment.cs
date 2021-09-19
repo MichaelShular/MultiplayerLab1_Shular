@@ -91,9 +91,26 @@ static public class AssignmentPart1
 
     static public void LoadPartyButtonPressed()
     {
+        string path = Application.dataPath + Path.DirectorySeparatorChar + "SavedContent.txt";
 
-        //GameContent.partyCharacters.Clear();
+        if(File.Exists(path))
+        {
+           GameContent.partyCharacters.Clear();
+            Debug.Log("Exist");
+            string line = "";
+            StreamReader sr = new StreamReader(path);
 
+            while((line = sr.ReadLine()) != null)
+            {
+                string[] csv = line.Split(',');
+                PartyCharacter pc = new PartyCharacter(int.Parse(csv[0]), int.Parse(csv[1]),
+                    int.Parse(csv[2]), int.Parse(csv[3]), int.Parse(csv[4]), int.Parse(csv[5]));
+
+                GameContent.partyCharacters.AddLast(pc);
+            }
+        }
+
+        
         GameContent.RefreshUI();
 
     }
