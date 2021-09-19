@@ -80,9 +80,14 @@ static public class AssignmentPart1
 
         foreach (PartyCharacter pc in GameContent.partyCharacters)
         {
-            Debug.Log("PC class id == " + pc.classID);
+            sw.WriteLine(pc.classID + "," + pc.health + "," + pc.mana + ","
+                            + pc.strength + "," + pc.agility + "," + pc.wisdom);
         }
+
+        sw.Close();
+
     }
+    
 
     static public void LoadPartyButtonPressed()
     {
