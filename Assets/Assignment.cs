@@ -73,6 +73,8 @@ public partial class PartyCharacter
 
 static public class AssignmentPart1
 {
+    const int partyCharacterSeparatorID = 0;
+    const int equipmentSeparatorID = 1;
 
     static public void SavePartyButtonPressed()
     {
@@ -80,11 +82,16 @@ static public class AssignmentPart1
 
         foreach (PartyCharacter pc in GameContent.partyCharacters)
         {
-            sw.WriteLine(pc.classID + "," + pc.health + "," + pc.mana + ","
+            sw.WriteLine(partyCharacterSeparatorID + "," + pc.classID + "," + pc.health + "," + pc.mana + ","
                             + pc.strength + "," + pc.agility + "," + pc.wisdom);
-        }
+        
 
-        sw.Close();
+            foreach (int equip in pc.equipment )
+            {
+                sw.WriteLine( equipmentSeparatorID + "," + equip);
+            }
+        }
+            sw.Close();
 
     }
     
@@ -103,10 +110,21 @@ static public class AssignmentPart1
             while((line = sr.ReadLine()) != null)
             {
                 string[] csv = line.Split(',');
-                PartyCharacter pc = new PartyCharacter(int.Parse(csv[0]), int.Parse(csv[1]),
-                    int.Parse(csv[2]), int.Parse(csv[3]), int.Parse(csv[4]), int.Parse(csv[5]));
 
-                GameContent.partyCharacters.AddLast(pc);
+                int saveDataSeparatorID = int.Parse(csv[0]);
+
+                if (saveDataSeparatorID == partyCharacterSeparatorID)
+                {
+                    PartyCharacter pc = new PartyCharacter(int.Parse(csv[1]), int.Parse(csv[2]),
+                        int.Parse(csv[3]), int.Parse(csv[4]), int.Parse(csv[5]), int.Parse(csv[6]));
+
+                    GameContent.partyCharacters.AddLast(pc);
+                }
+                else if( saveDataSeparatorID == equipmentSeparatorID)
+                {
+
+                    GameContent.partyCharacters.Last.Value.equipment.AddLast(int.Parse(csv[1]));
+                }
             }
         }
 
